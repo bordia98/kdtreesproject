@@ -88,6 +88,7 @@ class kdtree:
         elif x>=self.root.point[1]:
             self.searchtree_(x,y,self.root)
 
+
     # Search In KD Trees with the use of 3 parameters one is x coordinatre other is y coordinate and one is node in order to made recurssion
 
     def searchtree_(self,x,y,node):
@@ -132,7 +133,35 @@ class kdtree:
                             print("No match found")
                             return False
 
+    def minimum(self,dimension):
+        if self.root==None:
+            print("There is nothing to find minimum")
+        else:
+            return self.minimum_(self.root,dimension,1)
 
+    def minimum_(self,node,dimension,depth):
+        if dimension=='x':
+            z=0
+        elif dimension=='y':
+            z=1
+
+        h=depth%2
+        if h!=z:
+            if node.left==None:
+                t=node.point[z]
+                return node.point[z]
+            return  self.minimum_(node.left,dimension,depth+1)
+
+        a=node.point[z]
+        if node.left!=None:
+            b=self.minimum_(node.left,dimension,depth+1)
+        else:
+            b=10000000
+        if node.right!=None:
+            c=self.minimum_(node.right,dimension,depth+1)
+        else:
+            c=10000000
+        return min(a,b,c)
 
 kd=kdtree()
 kd.insert(6,8)
@@ -144,3 +173,5 @@ kd.insert(9,4)
 kd.insert(9,10)
 kd.printkdtree(kd.root)
 kd.searchtree(4,2)
+print("The minimum in x direction  is ",kd.minimum('x'))
+print("The minimum in y direction is " , kd.minimum('y'))
