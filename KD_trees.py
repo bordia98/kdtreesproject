@@ -133,19 +133,23 @@ class kdtree:
                             print("No match found")
                             return False
 
+    #method to find minimum in both x and y direction we have to start from the root in order to find the minimum
+
     def minimum(self,dimension):
         if self.root==None:
             print("There is nothing to find minimum")
         else:
-            return self.minimum_(self.root,dimension,1)
+            return self.minimum_(self.root,dimension,1) #this is done in order that the initial height is 1
 
     def minimum_(self,node,dimension,depth):
         if dimension=='x':
-            z=0
+            z=0                 #x corresponds to the dimension with point index as 0
         elif dimension=='y':
-            z=1
+            z=1                 # y corresponds to the dimension with point index as 1
 
-        h=depth%2
+        h=depth%2               #checking in which dimension we are currently working
+
+        #after this use pycharm debugger to understand what i have done as i cant explain in comments :-p
         if h!=z:
             if node.left==None:
                 t=node.point[z]
