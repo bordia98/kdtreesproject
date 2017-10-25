@@ -4,6 +4,14 @@ class treenode:
         self.left=None
         self.right=None
         self.parent=None
+global b
+b=treenode()
+global c
+b.point.append(10000000)
+b.point.append(10000000)
+c=treenode()
+c.point.append(10000000)
+c.point.append(10000000)
 
 class kdtree:
     def __init__(self):
@@ -71,6 +79,7 @@ class kdtree:
     def printkdtree(self,node):
         if self.root==None:
             print("There is nothing to print")
+        k=node.point[0]
         print(node.point,end='      ')
         if node.left !=None:
             self.printkdtree(node.left)
@@ -142,6 +151,7 @@ class kdtree:
             return self.minimum_(self.root,dimension,1) #this is done in order that the initial height is 1
 
     def minimum_(self,node,dimension,depth):
+        global b, c
         if dimension=='x':
             z=0                 #x corresponds to the dimension with point index as 0
         elif dimension=='y':
@@ -153,20 +163,26 @@ class kdtree:
         if h!=z:
             if node.left==None:
                 t=node.point[z]
-                return node.point[z]
+                return node
             return  self.minimum_(node.left,dimension,depth+1)
 
-        a=node.point[z]
+        a=node
         if node.left!=None:
             b=self.minimum_(node.left,dimension,depth+1)
-        else:
-            b=10000000
+
         if node.right!=None:
             c=self.minimum_(node.right,dimension,depth+1)
-        else:
-            c=10000000
-        return min(a,b,c)
 
+        return self.minnode(a,b,c,z)
+
+    def minnode(self,a,b,c,z):
+        res=a
+        if b!=None and b.point[z]<res.point[z]:
+            res=b
+        if c!=None and c.point[z]<res.point[z]:
+            res=c
+        return  res
+    #method to find the maximum of the all
 
     def maximum(self,dimension):
         if self.root==None:
@@ -200,17 +216,88 @@ class kdtree:
             c=-10000000
         return max(a,b,c)
 
-kd=kdtree()
-kd.insert(6,8)
-kd.insert(3,4)
-kd.insert(5,6)
-kd.insert(4,2)
-kd.insert(8,9)
-kd.insert(9,4)
-kd.insert(9,10)
-kd.printkdtree(kd.root)
-kd.searchtree(4,2)
-print("The minimum in x direction  is ",kd.minimum('x'))
-print("The minimum in y direction is " , kd.minimum('y'))
-print("The maximum in x direction is " , kd.maximum('x'))
-print("The maximum in y direction is " , kd.maximum('y'))
+    #check whether the points are same or not
+    def samepoints(self,a,b):
+        for i in range(len(b)):
+            if a[i]!=b[i]:
+                return False
+        return True
+
+    #copy one point to another
+    def copypoints(self,a,b):
+        for i in range(len(a)):
+            a[i]=b[i]
+
+    #function of deleting node
+    def deletenode(self,node,a,height):
+        if node==None:
+            return None
+
+        flag=0
+        h=height%2
+        if h==1:
+            z=0
+            k='x'
+        else:
+            z=1
+            k='y'
+
+        if self.samepoints(node.point,a):
+            flag=1
+            if node.right!=None:
+                minnode = self.minimum_(node.right,k,height)
+                self.copypoints(node.point,minnode.point)
+                node.right=self.deletenode(node.right,minnode.point,height+1)
+            elif node.left!=None:
+                minnode=self.minimum_(node.left,k,height)
+                self.copypoints(node.point,minnode.point)
+                node.right=self.deletenode(node.left,minnode.point,height+1)
+            else:
+                if node.parent.left==node:
+                    node.parent.left=None
+                else:
+                    node.parent.right=None
+                node.parent=None
+                return None
+            return node
+
+        if a[z]<node.point[z]:
+            node.left=self.deletenode(node.left,a,height+1)
+        else:
+            node.right=self.deletenode(node.right,a,height+1)
+
+        return node
+
+    #wrapping function for deleting node
+    def deletekdnode(self,a):
+        return self.deletenode(self.root,a,1)
+
+
+def main():
+    kd=kdtree()
+    kd.insert(6,8)
+    kd.insert(3,4)
+    kd.insert(5,6)
+    kd.insert(4,2)
+    kd.insert(8,9)
+    kd.insert(9,4)
+    kd.insert(9,10)
+    kd.printkdtree(kd.root)
+    kd.searchtree(4,2)
+    print("The minimum in x direction  is ",kd.minimum('x').point[0])
+    print("The minimum in y direction is " , kd.minimum('y').point[1])
+    print("The maximum in x direction is " , kd.maximum('x'))
+    print("The maximum in y direction is " , kd.maximum('y'))
+    a=[5,6]
+    kd.deletekdnode(a)
+    kd.printkdtree(kd.root)
+    a=[3,4]
+    kd.deletekdnode(a)
+    print()
+    kd.printkdtree(kd.root)
+    print()
+    a=[100,50]
+    w=kd.deletekdnode(a)
+    kd.printkdtree(kd.root)
+if __name__=='__main__':
+    main()
