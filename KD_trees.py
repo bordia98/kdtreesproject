@@ -21,8 +21,9 @@ class kdtree:
         a.append(x)
         a.append(y)
         temp=self.newnode(a)
-        a.pop()
-        a.pop()
+#         a.pop()
+#         a.pop()
+          a=[]
         if self.root==None:
             self.root=temp
         else:
