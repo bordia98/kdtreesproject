@@ -3,7 +3,7 @@ import sys
 
 
 class treenode:
-    def __init__(self):
+    def __init__(self):                 #initializing treenode
         self.point = []
         self.left = None
         self.right = None
@@ -12,16 +12,17 @@ class treenode:
 
 class kdtree:
     def __init__(self, k):
-        self.k = k
+        self.k = k                  #for using k dimension all over
         self.root = None
 
-    def newnode(self, a):
+    def newnode(self, a):           #for creating newnode everytime
         temp = treenode()
         for i in range(self.k):
             temp.point.append(a[i])
         return temp
 
-    def insert(self, coord):  # then add coord in the main and pass as argument
+    #insert function using list is passed as the parameters
+    def insert(self, coord):
         a = list()
         for point in coord:
             a.append(point)
@@ -31,8 +32,9 @@ class kdtree:
         if self.root == None:
             self.root = temp
         else:
-            self.insertbranch(self.root, temp)
+            self.insertbranch(self.root, temp)      #calling of adjacent function
 
+    #function to calculate the height of each node in order to tract the dimension
     def findheight(self, node):
         count = 1
         while node.parent:
@@ -40,8 +42,9 @@ class kdtree:
             node = node.parent
         return count
 
+    #extension function of insert
     def insertbranch(self, node1, node):
-        height = (self.findheight(node1) - 1) % self.k
+        height = (self.findheight(node1) - 1) % self.k  #knowing the dimension
         for i in range(self.k):
             if height == i:
                 if node.point[i] < node1.point[i]:
@@ -57,7 +60,7 @@ class kdtree:
                         node1.right = node
                         node.parent = node1
 
-    # printing the tree which is created printing is done in inorder traversals
+    # printing the tree which is created printing is done in preorder traversals
     def printkdtree(self, node):
         if self.root == None:
             print("There is nothing to print")
@@ -79,13 +82,14 @@ class kdtree:
         elif a[0] >= self.root.point[0]:
             self.searchtree_(a, self.root.right)
 
+    #function to check the data in node are same or not
     def checksame(self, node, a):
         for i in range(len(a)):
             if node.point[i] != a[i]:
                 return False
         return True
 
-    # Search In KD Trees with the use of 3 parameters one is x coordinatre other is y coordinate and one is node in order to made recurssion
+    # Search In KD Trees with the use of 2 parameters one is list and one is node in order to made recurssion
 
     def searchtree_(self, a, node):
         if node == None:
@@ -114,11 +118,12 @@ class kdtree:
                         print("No match found")
                         return False
 
+    #function to find the minimum of any dimension paramenter requirement is dimension number
     def minimum(self, dimension):
         if self.root == None:
             print("There is nothing to find minimum")
         else:
-            return self.minimum_(self.root, dimension, 0)  # this is done in order that the initial height is 1
+            return self.minimum_(self.root, dimension, 0)  # this is done in order that the initial height is 0
 
     def minimum_(self, node, dimension, depth):
         z = dimension
@@ -144,6 +149,7 @@ class kdtree:
 
         return self.minnode(a, b, c, z)
 
+    #finding the minimum of three node
     def minnode(self, a, b, c, z):
         res = a
         if b == None:
