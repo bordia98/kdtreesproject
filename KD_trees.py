@@ -1,28 +1,25 @@
 import random
 import sys
-
-
 class treenode:
-    def __init__(self):                 #initializing treenode
-        self.point = []
-        self.left = None
-        self.right = None
-        self.parent = None
-
+    def __init__(self):
+        self.point=[]
+        self.left=None
+        self.right=None
+        self.parent=None
 
 class kdtree:
-    def __init__(self, k):
-        self.k = k                  #for using k dimension all over
-        self.root = None
+    def __init__(self,k):
+        self.k=k
+        self.root=None
 
-    def newnode(self, a):           #for creating newnode everytime
+
+    def newnode(self, a):
         temp = treenode()
         for i in range(self.k):
             temp.point.append(a[i])
         return temp
 
-    #insert function using list is passed as the parameters
-    def insert(self, coord):
+    def insert(self, coord):  # then add coord in the main and pass as argument
         a = list()
         for point in coord:
             a.append(point)
@@ -32,9 +29,8 @@ class kdtree:
         if self.root == None:
             self.root = temp
         else:
-            self.insertbranch(self.root, temp)      #calling of adjacent function
+            self.insertbranch(self.root, temp)
 
-    #function to calculate the height of each node in order to tract the dimension
     def findheight(self, node):
         count = 1
         while node.parent:
@@ -42,9 +38,8 @@ class kdtree:
             node = node.parent
         return count
 
-    #extension function of insert
     def insertbranch(self, node1, node):
-        height = (self.findheight(node1) - 1) % self.k  #knowing the dimension
+        height = (self.findheight(node1) - 1) % self.k
         for i in range(self.k):
             if height == i:
                 if node.point[i] < node1.point[i]:
@@ -60,15 +55,15 @@ class kdtree:
                         node1.right = node
                         node.parent = node1
 
-    # printing the tree which is created printing is done in preorder traversals
-    def printkdtree(self, node):
-        if self.root == None:
+    #printing the tree which is created printing is done in inorder traversals
+    def printkdtree(self,node):
+        if self.root==None:
             print("There is nothing to print")
-        y = node.point[0]
-        print(node.point, end='      ')
-        if node.left != None:
+        y=node.point[0]
+        print(node.point,end='      ')
+        if node.left !=None:
             self.printkdtree(node.left)
-        if node.right != None:
+        if node.right!=None:
             self.printkdtree(node.right)
 
     # This code is to remove the node thing when we want to search via recursion and check the points
@@ -82,14 +77,13 @@ class kdtree:
         elif a[0] >= self.root.point[0]:
             self.searchtree_(a, self.root.right)
 
-    #function to check the data in node are same or not
     def checksame(self, node, a):
         for i in range(len(a)):
             if node.point[i] != a[i]:
                 return False
         return True
 
-    # Search In KD Trees with the use of 2 parameters one is list and one is node in order to made recurssion
+    # Search In KD Trees with the use of 3 parameters one is x coordinatre other is y coordinate and one is node in order to made recurssion
 
     def searchtree_(self, a, node):
         if node == None:
@@ -102,10 +96,10 @@ class kdtree:
                 return True
             else:
                 print(self.findheight(node))
-                height = (self.findheight(node) - 1) % self.k
+                height = (self.findheight(node)-1) % self.k
                 if a[height] < node.point[height]:
                     if node.left != None:
-                        self.searchtree_(a, node.left)
+                        self.searchtree_(a,node.left)
                     else:
                         print()
                         print("No match found")
@@ -118,12 +112,11 @@ class kdtree:
                         print("No match found")
                         return False
 
-    #function to find the minimum of any dimension paramenter requirement is dimension number
     def minimum(self, dimension):
         if self.root == None:
             print("There is nothing to find minimum")
         else:
-            return self.minimum_(self.root, dimension, 0)  # this is done in order that the initial height is 0
+            return self.minimum_(self.root, dimension, 0)  # this is done in order that the initial height is 1
 
     def minimum_(self, node, dimension, depth):
         z = dimension
@@ -140,20 +133,19 @@ class kdtree:
         if node.left != None:
             b = self.minimum_(node.left, dimension, depth + 1)
         else:
-            b = None
+            b=None
 
         if node.right != None:
             c = self.minimum_(node.right, dimension, depth + 1)
         else:
-            c = None
+            c=None
 
         return self.minnode(a, b, c, z)
 
-    #finding the minimum of three node
     def minnode(self, a, b, c, z):
         res = a
         if b == None:
-            b = treenode()
+            b=treenode()
             for i in range(self.k):
                 b.point.append(sys.maxsize)
         if c == None:
@@ -166,37 +158,37 @@ class kdtree:
             res = c
         return res
 
-    # method to find the maximum of the all
+    #method to find the maximum of the all
 
-    def maximum(self, dimension):
-        if self.root == None:
+    def maximum(self,dimension):
+        if self.root==None:
             print("There is nothing to find minimum")
         else:
-            return self.maximum_(self.root, dimension, 0)  # this is done in order that the initial height is 1
+            return self.maximum_(self.root,dimension,0) #this is done in order that the initial height is 1
 
-    def maximum_(self, node, dimension, depth):
+    def maximum_(self,node,dimension,depth):
         z = dimension
         h = depth % self.k  # checking in which dimension we are currently working
 
-        h = depth % 2  # checking in which dimension we are currently working
+        h=depth%2               #checking in which dimension we are currently working
 
-        # after this use pycharm debugger to understand what i have done as i cant explain in comments :-p
-        if h == z:
-            if node.right == None:
-                t = node.point[z]
+        #after this use pycharm debugger to understand what i have done as i cant explain in comments :-p
+        if h==z:
+            if node.right==None:
+                t=node.point[z]
                 return node.point[z]
-            return self.maximum_(node.right, dimension, depth + 1)
+            return  self.maximum_(node.right,dimension,depth+1)
 
-        a = node.point[z]
-        if node.left != None:
-            e = self.maximum_(node.left, dimension, depth + 1)
+        a=node.point[z]
+        if node.left!=None:
+            e=self.maximum_(node.left,dimension,depth+1)
         else:
-            e = -10000000
-        if node.right != None:
-            f = self.maximum_(node.right, dimension, depth + 1)
+            e=-10000000
+        if node.right!=None:
+            f=self.maximum_(node.right,dimension,depth+1)
         else:
-            f = -10000000
-        return max(e, f, a)
+            f=-10000000
+        return max(e,f,a)
 
     def samepoints(self, a, b):
         for i in range(len(b)):
@@ -219,11 +211,11 @@ class kdtree:
         h = height % self.k
         if self.samepoints(node.point, a):
             if node.right != None:
-                minnode = self.minimum_(node.right, h, height + 1)
+                minnode = self.minimum_(node.right, h, height+1)
                 self.copypoints(node.point, minnode.point)
                 node.right = self.deletenode(node.right, minnode.point, height + 1)
             elif node.left != None:
-                minnode = self.minimum_(node.left, h, height + 1)
+                minnode = self.minimum_(node.left, h, height+1)
                 self.copypoints(node.point, minnode.point)
                 node.right = self.deletenode(node.left, minnode.point, height + 1)
             else:
@@ -248,25 +240,49 @@ class kdtree:
 def main():
     print("Enter the value of k in which you waant to run data Structure")
     k = int(input())
-    kd = kdtree(k)
-
-    a = list()
-    z = True
+    kd=kdtree(k)
+    l=list()
+    a=list()
+    z=True
 
     for i in range(10):
         for i in range(k):
-            rand = random.randint(0, 60)
+            rand= random.randint(0,60)
             a.append(rand)
-        kd.insert(a)
-        a = []
+
+        #kd.insert(a)
+        l.append(a)
+        a=[]
+
+    height = 0
+    while len(l) > 0:
+        axis = height % 2
+        if height==0:
+            k=1
+        else:
+            k = height ** 2
+        while k > 0 and len(l) != 0:
+            l = sorted(l, key=lambda point: point[axis])
+            if (len(l) % 2 != 0):
+                n = (len(l) - 1) // 2
+                kd.insert(l[n])
+            else:
+                n = (len(l) // 2) - 1
+                kd.insert(l[n])
+            l.pop(n)
+            k -= -1
+        height += 1
+
+
+
     kd.printkdtree(kd.root)
     print()
-    z = True
+    z=True
     while z:
         print("Enter the coordinates you want to check in the tree are present or not")
-        a = list((map(int, input().split(" "))))
+        a=list((map(int,input().split(" "))))
         kd.searchtree(a)
-        a = []
+        a=[]
         print("Io end entering data press 0 to continue enter anything")
         u = int(input())
         if u == 0:
@@ -275,7 +291,7 @@ def main():
     while z:
         print("The minimum in selected direction is ")
         a = int(input())
-        t = kd.minimum(a).point[a]
+        t=kd.minimum(a).point[a]
         a = []
         print(t)
         print("Io end entering data press 0 to continue enter anything")
@@ -296,7 +312,7 @@ def main():
     z = True
     while z:
         print("Enter the coordinates of the node you want to delete")
-        a = list(map(int, input().split()))
+        a = list(map(int,input().split()))
         t = kd.deletekdnode(a)
         a = []
         kd.printkdtree(kd.root)
@@ -306,6 +322,5 @@ def main():
         if u == 0:
             z = False
 
-
-if __name__ == '__main__':
+if __name__=='__main__':
     main()
