@@ -98,7 +98,6 @@ class kdtree:
                 print("Point is present in the tree")
                 return True
             else:
-                print(self.findheight(node))
                 height = (self.findheight(node)-1) % self.k
                 if a[height] < node.point[height]:
                     if node.left != None:
@@ -243,6 +242,7 @@ class kdtree:
         m=treenode()
         m=closest_point_perfect(self.root,searchpoint,0)
         return m.point
+
 k=2
 def distance(point1,point2):
     x1 , y1 = point1
@@ -251,9 +251,11 @@ def distance(point1,point2):
     dy = y2-y1
     d = math.sqrt(dx*dx + dy*dy)
     return d
+
 nextBest=treenode()
 nextBranch=treenode()
 oppositeBranch=treenode()
+
 def closer(searchpoint,p1,p2):
     if p1 is None:
         return p2
@@ -265,6 +267,8 @@ def closer(searchpoint,p1,p2):
     if d1 > d2:
         return p2
     return p1
+
+
 def closest_point_perfect(root,searchpoint,depth): # Accurecy : 100%
     k=2
     if root is None:
@@ -280,7 +284,9 @@ def closest_point_perfect(root,searchpoint,depth): # Accurecy : 100%
     if distance(best.point,searchpoint) > abs(root.point[axis]-searchpoint[axis]):
         best = closer(searchpoint,closest_point_perfect(oppositeBranch,searchpoint,depth+1),best)
     return best
-def closest_point(root,best,searchpoint,depth): #this function has less accurecy
+
+
+def closest_point(root,best,searchpoint,depth):              #this function has less accurecy
     axis = depth % k
     if root is None:
         return best.point
@@ -298,106 +304,135 @@ def closest_point(root,best,searchpoint,depth): #this function has less accurecy
 
     return closest_point(nextBranch,nextBest,searchpoint,depth+1)
 
+
 def main():
-    # print("Enter the value of k in which you waant to run data Structure")
-    # k = int(input())
-    k=2
+    print("Enter the value of k in which you waant to run data Structure")
+    k = int(input())
     kd=kdtree(k)
     l=list()
     a=list()
     z=True
     scene = Scene('test')
     # scene.add(Rectangle((100,100),200,200,(255,255,255)))
-    for i in range(10):
-        for i in range(k):
-            rand= random.randint(100,300)
-            a.append(rand)
+    if k>0:
+        for i in range(10):
+            for i in range(k):
+                rand= random.randint(100,300)
+                a.append(rand)
 
         #kd.insert(a)
-        if k==2:
-            scene.add(Circle((a[0],a[1]),3,(0,255,0)))      #Adds circle when k=2
-        l.append(a)
-        a=[]
-    #Testing nearest distance
-    p=[]
-    p=l
-    x=[]
-    for i in range(len(p)):
-        x.append(distance(p[i],[100,100]))
-    x.sort()
-    print('List :',x[0])
-    height = 0
-    while len(l) > 0:
-        axis = height % 2
-        if height==0:
-            k=1
-        else:
-            k = height ** 2
-        while k > 0 and len(l) != 0:
-            l = sorted(l, key=lambda point: point[axis])
-            if (len(l) % 2 != 0):
-                n = (len(l) - 1) // 2
-                kd.insert(l[n])
+            if k==2:
+                scene.add(Circle((a[0],a[1]),3,(0,255,0)))      #Adds circle when k=2
+            l.append(a)
+            a=[]
+         #Testing nearest distance
+        '''p=[]
+        p=l
+        x=[]
+        for i in range(len(p)):
+            x.append(distance(p[i],[100,100]))
+        x.sort()
+        print('List :',x[0])'''
+        height = 0
+        while len(l) > 0:
+            axis = height % 2
+            if height==0:
+                h=1
             else:
-                n = (len(l) // 2) - 1
-                kd.insert(l[n])
-            l.pop(n)
-            k -= -1
-        height += 1
+                h = height ** 2
+            while h > 0 and len(l) != 0:
+                l = sorted(l, key=lambda point: point[axis])
+                if (len(l) % 2 != 0):
+                    n = (len(l) - 1) // 2
+                    kd.insert(l[n])
+                else:
+                    n = (len(l) // 2) - 1
+                    kd.insert(l[n])
+                l.pop(n)
+                h -= -1
+            height += 1
 
-
-
-    # kd.printkdtree(kd.root)
-    print()
-    z=True
-    '''while z:
-        print("Enter the coordinates you want to check in the tree are present or not")
-        a=list((map(int,input().split(" "))))
-        kd.searchtree(a)
-        a=[]
-        print("Io end entering data press 0 to continue enter anything")
-        u = int(input())
-        if u == 0:
-            z = False
-    z = True
-    while z:
-        print("The minimum in selected direction is ")
-        a = int(input())
-        t=kd.minimum(a).point[a]
-        a = []
-        print(t)
-        print("Io end entering data press 0 to continue enter anything")
-        u = int(input())
-        if u == 0:
-            z = False
-    z = True
-    while z:
-        print("The maximum in selected direction is ")
-        a = int(input())
-        t = kd.maximum(a)
-        a = []
-        print(t)
-        print("Io end entering data press 0 to continue enter anything")
-        u = int(input())
-        if u == 0:
-            z = False
-    z = True
-    while z:
-        print("Enter the coordinates of the node you want to delete")
-        a = list(map(int,input().split()))
-        t = kd.deletekdnode(a)
-        a = []
+        print("The kd tree in pre Order Traversal is ")
         kd.printkdtree(kd.root)
         print()
-        print("Io end entering data press 0 to continue enter anything")
-        u = int(input())
-        if u == 0:
-            z = False'''
-    b=kd.search_nearest([100,100])
-    print('Algo:',distance([100,100],b))
-    scene.add(Circle((100,100),3,(255,0,0)))
-    scene.add(Circle((b[0],b[1]),3,(0,0,0)))
-    scene.display()
+
+        print("Do you want to search coordinates in KD tree[y/n]?")
+        ans=input()
+        if ans=='y' or ans=='Y':
+            z=True
+            while z:
+                print("Enter the coordinates you want to check in the tree are present or not")
+                a=list((map(int,input().split(" "))))
+                kd.searchtree(a)
+                a=[]
+                print("Io end entering data press 0 to continue enter anything")
+                u = int(input())
+                if u == 0:
+                    z = False
+
+        print("Do you want to find minimum of a given dimension[y/n]")
+        ans=input()
+        if ans=='y' or ans=='Y':
+            z = True
+            while z:
+                print("The minimum in selected direction is ")
+                a = int(input())
+                if a>=0 and a<k:
+                    t=kd.minimum(a).point[a]
+                    a = []
+                    print(t)
+                    print("Io end entering data press 0 to continue enter anything")
+                    u = int(input())
+                    if u == 0:
+                        z = False
+                else:
+                    print("Please enter the correct dimension")
+
+        print("Do you want to find maximum of a given dimension[y/n]")
+        ans=input()
+        if ans=='y' or ans=='Y':
+            z = True
+            while z:
+                print("The maximum in selected direction is ")
+                a = int(input())
+                if a>=0 and a<k:
+                    t = kd.maximum(a)
+                    a = []
+                    print(t)
+                    print("Io end entering data press 0 to continue enter anything")
+                    u = int(input())
+                    if u == 0:
+                        z = False
+
+        print("Do you want to delete any node from the created tree[y/n]")
+        ans=input()
+        if ans=='y' or ans=='Y':
+            z = True
+            while z:
+                print("Enter the coordinates of the node you want to delete")
+                a = list(map(int,input().split()))
+                t = kd.deletekdnode(a)
+                a = []
+                kd.printkdtree(kd.root)
+                print()
+                print("Io end entering data press 0 to continue enter anything")
+                u = int(input())
+                if u == 0:
+                    z = False
+
+        #Nearest Neighbour search in Two dimension
+        if k==2:
+            print("Enter the point where you want to do the nearest search")
+            p=[]
+            p=list(map(int,input().split()))
+            b=kd.search_nearest(p)
+            print("The nearest Neighbour is present at the location ",b)
+            print("The distance of the nearest neighbour is ",distance(p,b))
+            scene.add(Circle((p[0],p[1]),3,(255,0,0)))
+            scene.add(Circle((b[0],b[1]),3,(0,0,0)))
+            #scene.display()
+    else:
+        print("Enter correct value of k")
 
 if __name__=='__main__':
     main()

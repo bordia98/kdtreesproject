@@ -244,13 +244,10 @@ def main():
     l=list()
     a=list()
     z=True
-
     for i in range(10):
         for i in range(k):
             rand= random.randint(0,60)
             a.append(rand)
-
-        #kd.insert(a)
         l.append(a)
         a=[]
 
