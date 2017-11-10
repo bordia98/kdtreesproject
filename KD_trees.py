@@ -1,30 +1,25 @@
+import sys
 class treenode:
     def __init__(self):
         self.point=[]
         self.left=None
         self.right=None
         self.parent=None
-global b
+global b,c,k
 b=treenode()
-global c
-b.point.append(10000000)
-b.point.append(10000000)
 c=treenode()
-c.point.append(10000000)
-c.point.append(10000000)
-
 class kdtree:
     def __init__(self):
         self.root=None
 
     def newnode(self,a):
         temp=treenode()
-        for i in range(2):
+        for i in range(k):
             temp.point.append(a[i])
         return temp
 
     #this will insert node at root and else part will insert things at the branch
-    def insert(self,x,y):
+    '''def insert(self,x,y):
         a=list()
         a.append(x)
         a.append(y)
@@ -34,7 +29,21 @@ class kdtree:
         if self.root==None:
             self.root=temp
         else:
+            self.insertbranch(self.root,temp)'''
+
+    def insert(self,coord):  #then add coord in the main and pass as argument 
+        a=list()
+        for point in coord:
+            a.append(point)
+        temp=self.newnode(a)
+        for i in range(k):
+            a.pop()
+        if self.root==None:
+            self.root=temp
+        else:
             self.insertbranch(self.root,temp)
+
+
 
     # This is the function which is used to calculate the dimension
     #like we have consider in 2 dimension so we will find height using it
@@ -46,7 +55,7 @@ class kdtree:
         return count
 
     # Other function to insert in 2 different dimension
-    def insertbranch(self,node1,node):
+    '''def insertbranch(self,node1,node):
         height=self.findheight(node1)%2
         if height==1:                                   #height==1 corresponds to x dimension and height = 0 corresponds to y direction
             if node.point[0]<node1.point[0]:            #point[0] as defind in the structure of the node means x coordinate and point[1] corresponds to y coordinate
@@ -73,7 +82,25 @@ class kdtree:
                     self.insertbranch(node1.right,node)
                 else:
                     node1.right=node
-                    node.parent=node1
+                    node.parent=node1'''
+
+    def insertbranch(self,node1,node):
+        height=(self.findheight(node1)-1)%k
+        for i in range(k):
+            if height==i:
+                if node.point[i]<node1.point[i]:
+                    if node1.left!=None:
+                        self.insertbranch(node1.left,node)
+                    else:
+                        node1.left=node
+                        node.parent=node1
+                if node.point[i]>=node1.point[i]:
+                    if node1.right!=None:
+                        self.insertbranch(node1.right,node)
+                    else:
+                        node1.right=node
+                        node.parent=node1
+
 
     #printing the tree which is created printing is done in inorder traversals
     def printkdtree(self,node):
@@ -87,7 +114,7 @@ class kdtree:
             self.printkdtree(node.right)
 
     # This code is to remove the node thing when we want to search via recursion and check the points
-    def searchtree(self,x,y):
+    '''def searchtree(self,x,y):
         if self.root==None:
             print("No match found")
         elif self.root.point[0]==x and self.root.point[1]==y:
@@ -270,21 +297,33 @@ class kdtree:
 
     #wrapping function for deleting node
     def deletekdnode(self,a):
-        return self.deletenode(self.root,a,1)
+        return self.deletenode(self.root,a,1)'''
 
 
 def main():
     kd=kdtree()
-    kd.insert(6,8)
+    k=(int)(input("enter the dimension of tree"))
+    for i in range(k):
+        b.point.append(sys.maxsize)
+        c.point.append(sys.maxsize)
+    coordinates=[]
+    '''kd.insert(6,8)
     kd.insert(3,4)
     kd.insert(5,6)
     kd.insert(4,2)
     kd.insert(8,9)
     kd.insert(9,4)
-    kd.insert(9,10)
+    kd.insert(9,10)'''
+    c=1
+    while c!=0:
+        for i in range(k):
+            coordinates.append((int)(input("enter the co-ordinate")))
+        kd.insert(coordinates)
+        c=(int)(input("enter 0 to exit else to continue")
+    
     kd.printkdtree(kd.root)
-    kd.searchtree(4,2)
-    print("The minimum in x direction  is ",kd.minimum('x').point[0])
+    #kd.searchtree(4,2)
+    '''print("The minimum in x direction  is ",kd.minimum('x').point[0])
     print("The minimum in y direction is " , kd.minimum('y').point[1])
     print("The maximum in x direction is " , kd.maximum('x'))
     print("The maximum in y direction is " , kd.maximum('y'))
@@ -298,6 +337,6 @@ def main():
     print()
     a=[100,50]
     w=kd.deletekdnode(a)
-    kd.printkdtree(kd.root)
+    kd.printkdtree(kd.root)'''
 if __name__=='__main__':
     main()
