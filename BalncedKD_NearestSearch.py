@@ -290,7 +290,7 @@ def closest_point(root,best,searchpoint,depth):              #this function has 
     axis = depth % k
     if root is None:
         return best.point
-    if best is None or distance(best.point,root.point)>distance(searchpoint,root.point):
+    if best is None or distance(best.point,searchpoint)>distance(searchpoint,root.point):
         nextBest = root
     else:
         nextBest = best

@@ -2,29 +2,48 @@
 <svg height="400" width="400" >
  <g style="fill-opacity:1.0; stroke:black;
   stroke-width:1;">
-  <circle cx="104" cy="252" r="3"
+  <rect x="50" y="50" height="300"
+    width="300" style="fill:#fff;" />
+  <circle cx="158" cy="112" r="3"
     style="fill:#0f0;"  />
-  <circle cx="154" cy="149" r="3"
+  <circle cx="180" cy="103" r="3"
     style="fill:#0f0;"  />
-  <circle cx="183" cy="258" r="3"
+  <circle cx="275" cy="300" r="3"
     style="fill:#0f0;"  />
-  <circle cx="267" cy="114" r="3"
+  <circle cx="174" cy="179" r="3"
     style="fill:#0f0;"  />
-  <circle cx="236" cy="270" r="3"
+  <circle cx="158" cy="212" r="3"
     style="fill:#0f0;"  />
-  <circle cx="184" cy="232" r="3"
+  <circle cx="197" cy="291" r="3"
     style="fill:#0f0;"  />
-  <circle cx="250" cy="142" r="3"
+  <circle cx="118" cy="298" r="3"
     style="fill:#0f0;"  />
-  <circle cx="124" cy="261" r="3"
+  <circle cx="289" cy="231" r="3"
     style="fill:#0f0;"  />
-  <circle cx="200" cy="126" r="3"
+  <circle cx="202" cy="170" r="3"
     style="fill:#0f0;"  />
-  <circle cx="140" cy="189" r="3"
+  <circle cx="281" cy="110" r="3"
     style="fill:#0f0;"  />
-  <circle cx="100" cy="100" r="3"
+  <circle cx="10" cy="10" r="3"
     style="fill:#f00;"  />
-  <circle cx="154" cy="149" r="3"
+  <circle cx="158" cy="112" r="3"
     style="fill:#000;"  />
+  <text x="100" y="20" font-size="24">
+   ETA : 17.97 min
+  </text>
+  <circle cx="50" cy="50" r="3"
+    style="fill:#f00;"  />
+  <circle cx="158" cy="112" r="3"
+    style="fill:#000;"  />
+  <text x="100" y="20" font-size="24">
+   ETA : 12.45 min
+  </text>
+  <circle cx="50" cy="60" r="3"
+    style="fill:#f00;"  />
+  <circle cx="158" cy="112" r="3"
+    style="fill:#000;"  />
+  <text x="100" y="20" font-size="24">
+   ETA : 11.99 min
+  </text>
  </g>
 </svg>
