@@ -402,7 +402,7 @@ def main():
                 a = list(map(int,input().split()))
                 t = kd.deletekdnode(a)
                 a = []
-                print("Tree afer deletion is :")
+                print("Tree after deletion is :")
                 kd.printkdtree(kd.root)
                 print()
         #Nearest Neighbour search in Two dimension
@@ -416,10 +416,12 @@ def main():
                 print("The distance of the nearest neighbour is ",x)
                 scene.add(Circle((p[0],p[1]),3,(255,0,0)))
                 scene.add(Circle((b[0],b[1]),3,(0,0,0)))
-                y='ETA : '+str(round(x/10,2))+' min' #ETA value ( Hypothetical)
-                scene.add(Text((100,20),y))
+                # y='ETA : '+str(round(x/10,2))+' min' #ETA value ( Hypothetical)
+                # scene.add(Text((100,20),y))
                 scene.write_svg()
                 scene.display()
+                scene.add(Circle((b[0],b[1]),3,(0,255,0)))
+                scene.add(Circle((p[0],p[1]),3,(255,255,255)))
 
             print("*****************************************************************")
             print("Continue operating on created Tree enter 1 else any other integer")

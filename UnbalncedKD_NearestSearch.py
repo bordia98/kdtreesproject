@@ -402,15 +402,6 @@ def main():
     scene.add(Circle((100,150),3,(255,0,255)))
     x=distance([100,150],p)
     print('Algo:',x)
-    # scene.add(Line((200,200),(200,300)))
-    # scene.add(Line((200,200),(300,200)))
-    # scene.add(Line((200,200),(100,200)))
-    # scene.add(Line((200,200),(200,100)))
-    # scene.add(Circle((200,200),3,(0,255,0)))
-    # scene.add(Circle((200,300),3,(0,255,0)))
-    # scene.add(Circle((300,200),3,(0,255,0)))
-    # scene.add(Circle((100,200),3,(0,255,0)))
-    # scene.add(Circle((200,100),3,(0,255,0)))
     import time
     # time.sleep(1)
     scene.add(Circle((p[0],p[1]),3,(0,255,255)))
@@ -418,6 +409,7 @@ def main():
     scene.add(Text((50,50),y))
     scene.write_svg()
     scene.display()
+
 
 
 
